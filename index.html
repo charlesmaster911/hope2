@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HOPE 2 — The Evidence · Choose your language</title>
+<meta name="description" content="We Want HOPE 2 — a global fan hub for Na Hong-jin's HOPE. Choose your language.">
+<link rel="canonical" href="__BASE__/">
+<link rel="alternate" hreflang="ko" href="__BASE__/ko/">
+<link rel="alternate" hreflang="en" href="__BASE__/en/">
+<link rel="alternate" hreflang="es" href="__BASE__/es/">
+<link rel="alternate" hreflang="fr" href="__BASE__/fr/">
+<link rel="alternate" hreflang="ja" href="__BASE__/ja/">
+<link rel="alternate" hreflang="x-default" href="__BASE__/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/hope.css">
+</head>
+<body>
+<div class="gate">
+  <canvas class="gate-canvas" aria-hidden="true"></canvas>
+  <div class="gate-inner">
+    <h1>HOPE<span class="two">2</span></h1>
+    <p class="sub serif">Faith is the evidence of things hoped for. — Choose your language.</p>
+    <nav class="langs" aria-label="Language">
+      <a href="ko/" hreflang="ko"><b>한국어</b><span>Korean</span></a>
+      <a href="en/" hreflang="en"><b>English</b><span>English</span></a>
+      <a href="es/" hreflang="es"><b>Español</b><span>Spanish</span></a>
+      <a href="fr/" hreflang="fr"><b>Français</b><span>French</span></a>
+      <a href="ja/" hreflang="ja"><b>日本語</b><span>Japanese</span></a>
+    </nav>
+  </div>
+  <p class="foot">Unofficial non-profit fan project · #WeWantHOPE2</p>
+</div>
+<script>
+  // Suggest (never force) the visitor's language; remember last choice.
+  (function () {
+    try {
+      var saved = localStorage.getItem("hope2_lang");
+      var supported = ["ko", "en", "es", "fr", "ja"];
+      var pref = saved || (navigator.language || "en").slice(0, 2).toLowerCase();
+      if (supported.indexOf(pref) > -1) {
+        var link = document.querySelector('.langs a[hreflang="' + pref + '"]');
+        if (link) { link.style.borderColor = "var(--biolum)"; link.setAttribute("aria-current", "true"); }
+      }
+    } catch (e) {}
+  })();
+</script>
+<script src="assets/js/hope.js"></script>
+</body>
+</html>

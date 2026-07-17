@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>__BASE__/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="__BASE__/ko/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="__BASE__/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="__BASE__/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="__BASE__/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="__BASE__/ja/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="__BASE__/"/>
+  </url>
+  <url><loc>__BASE__/ko/</loc></url>
+  <url><loc>__BASE__/en/</loc></url>
+  <url><loc>__BASE__/es/</loc></url>
+  <url><loc>__BASE__/fr/</loc></url>
+  <url><loc>__BASE__/ja/</loc></url>
+</urlset>

@@ -1,0 +1,11 @@
+# secrets / local config (Firebase keys etc.)
+assets/js/config.js
+.env
+.env.*
+
+# os / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
