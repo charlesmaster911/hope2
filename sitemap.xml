@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>__BASE__/</loc>
-    <xhtml:link rel="alternate" hreflang="ko" href="__BASE__/ko/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="__BASE__/en/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="__BASE__/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="__BASE__/fr/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="__BASE__/ja/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="__BASE__/"/>
+    <loc>https://charlesmaster911.github.io/hope2/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://charlesmaster911.github.io/hope2/ko/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://charlesmaster911.github.io/hope2/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://charlesmaster911.github.io/hope2/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://charlesmaster911.github.io/hope2/fr/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://charlesmaster911.github.io/hope2/ja/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://charlesmaster911.github.io/hope2/"/>
   </url>
-  <url><loc>__BASE__/ko/</loc></url>
-  <url><loc>__BASE__/en/</loc></url>
-  <url><loc>__BASE__/es/</loc></url>
-  <url><loc>__BASE__/fr/</loc></url>
-  <url><loc>__BASE__/ja/</loc></url>
+  <url><loc>https://charlesmaster911.github.io/hope2/ko/</loc></url>
+  <url><loc>https://charlesmaster911.github.io/hope2/en/</loc></url>
+  <url><loc>https://charlesmaster911.github.io/hope2/es/</loc></url>
+  <url><loc>https://charlesmaster911.github.io/hope2/fr/</loc></url>
+  <url><loc>https://charlesmaster911.github.io/hope2/ja/</loc></url>
 </urlset>
