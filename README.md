@@ -54,10 +54,11 @@ hope2-fanpage/
 
 ---
 
-## 서명 카운터 — 지금은 로컬, 실시간 집계는 Firebase 연결 후
+## 서명 카운터 — 실시간 공용 집계 (기본 ON)
 
-현재 서명은 **방문자 브라우저(localStorage) 기준**으로만 집계됩니다(백엔드 미연결).
-공용 실시간 집계를 켜려면 무료 **Firebase Spark**(무활동 정지 없음)를 붙입니다:
+**기본값:** 무가입·무키 공용 카운터 **CounterAPI**(`api.counterapi.dev/v1/wewanthope2/signatures`)로 전 세계 서명이 실시간 합산됩니다. 서비스가 불통이면 자동으로 브라우저(localStorage) 폴백 — 버튼은 절대 깨지지 않음. `hope.js`의 `COUNTER_URL` 또는 `window.HOPE_COUNTER_URL`로 네임스페이스 변경 가능. 중복 서명은 localStorage 플래그로 1인 1회 억제(베스트에포트).
+
+> **장기 내구성 업그레이드(선택):** CounterAPI는 무료 호비 서비스라 장기 존속 보장이 없습니다. 더 견고하게 가려면 무료 **Firebase Spark**(무활동 정지 없음)를 붙여 `window.HOPE_SIGN`으로 오버라이드하세요:
 
 1. Firebase 프로젝트 생성 → Firestore(Native) 활성화.
 2. 보안 규칙: 문서 하나(`meta/petition`)에 **increment만 허용**하도록 제한.

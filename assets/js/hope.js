@@ -53,41 +53,47 @@
     $$(".counter-card.office").forEach(function (n) { io.observe(n); });
   }
 
-  /* ---------- petition (Firebase-ready, localStorage fallback) ---------- */
-  function petitionCount() {
-    var c = DATA.counter || {};
-    var base = c.petitionBase || 0;
-    var local = 0;
-    try { local = parseInt(localStorage.getItem("hope2_signed_n") || "0", 10) || 0; } catch (e) {}
-    return base + local;
-  }
+  /* ---------- petition (shared counter via CounterAPI, localStorage fallback) ----------
+     Precedence: window.HOPE_SIGN (Firebase override, see README) > CounterAPI shared count > localStorage.
+     CounterAPI is a free no-key service; if it is ever unreachable the counter degrades to
+     per-browser localStorage so the button never breaks. */
+  var COUNTER_URL = (typeof window !== "undefined" && window.HOPE_COUNTER_URL) || "https://api.counterapi.dev/v1/wewanthope2/signatures";
+  function localSigned() { try { return parseInt(localStorage.getItem("hope2_signed_n") || "0", 10) || 0; } catch (e) { return 0; } }
+  function localTotal() { return ((DATA.counter || {}).petitionBase || 0) + localSigned(); }
   function initPetition() {
     var box = $(".petition-box"); if (!box) return;
     var big = $(".big", box), form = $("form", box), thanks = $(".thanks", box);
     var goal = (DATA.counter || {}).petitionGoal || 100000;
-    function render() {
-      var n = petitionCount();
+    var signed = false;
+    try { signed = localStorage.getItem("hope2_signed") === "1"; } catch (e) {}
+    function paint(n) {
       countUp(big, n, 1400);
       var of = $(".of", box); if (of && UI.petitionOf) of.textContent = UI.petitionOf.replace("{goal}", fmt(goal));
     }
-    var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { render(); io.disconnect(); } }, { threshold: 0.3 });
+    // initial count when scrolled into view: prefer the shared remote total, fall back to local
+    var io = new IntersectionObserver(function (e) {
+      if (!e[0].isIntersecting) return; io.disconnect();
+      fetch(COUNTER_URL).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (d) { paint(typeof d.count === "number" ? d.count : localTotal()); })
+        .catch(function () { paint(localTotal()); });
+    }, { threshold: 0.3 });
     io.observe(box);
-    var signed = false;
-    try { signed = localStorage.getItem("hope2_signed") === "1"; } catch (e) {}
     if (signed && thanks) thanks.textContent = UI.petitionAlready || UI.petitionThanks || "";
     if (form) form.addEventListener("submit", function (ev) {
       ev.preventDefault();
       if (signed) { if (thanks) thanks.textContent = UI.petitionAlready || ""; return; }
-      try {
-        localStorage.setItem("hope2_signed", "1");
-        localStorage.setItem("hope2_signed_n", String(((parseInt(localStorage.getItem("hope2_signed_n") || "0", 10)) || 0) + 1));
-      } catch (e) {}
       signed = true;
-      big.textContent = fmt(petitionCount());
+      try { localStorage.setItem("hope2_signed", "1"); } catch (e) {}
+      if (typeof window.HOPE_SIGN === "function") { try { window.HOPE_SIGN(); } catch (e) {} } // Firebase override hook
       if (thanks) thanks.textContent = UI.petitionThanks || "Thank you.";
+      // increment the shared counter; fall back to a per-browser tally if the service is down
+      fetch(COUNTER_URL + "/up").then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (d) { paint(typeof d.count === "number" ? d.count : localTotal()); })
+        .catch(function () {
+          try { localStorage.setItem("hope2_signed_n", String(localSigned() + 1)); } catch (e) {}
+          paint(localTotal());
+        });
       form.reset();
-      // Firebase hook: if window.HOPE_SIGN is provided by config.js, call it.
-      if (typeof window.HOPE_SIGN === "function") { try { window.HOPE_SIGN(); } catch (e) {} }
     });
   }
 
