@@ -70,10 +70,12 @@
       countUp(big, n, 1400);
       var of = $(".of", box); if (of && UI.petitionOf) of.textContent = UI.petitionOf.replace("{goal}", fmt(goal));
     }
-    // initial count when scrolled into view: prefer the shared remote total, fall back to local
+    // initial count when scrolled into view: prefer the shared remote total, fall back to local.
+    // NB: CounterAPI's read needs the trailing slash — the slash-less URL 301-redirects and the
+    // redirect drops CORS in the browser, so read via COUNTER_URL + "/".
     var io = new IntersectionObserver(function (e) {
       if (!e[0].isIntersecting) return; io.disconnect();
-      fetch(COUNTER_URL).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      fetch(COUNTER_URL + "/").then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function (d) { paint(typeof d.count === "number" ? d.count : localTotal()); })
         .catch(function () { paint(localTotal()); });
     }, { threshold: 0.3 });
