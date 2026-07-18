@@ -293,6 +293,44 @@
     if (reduce) draw(0); else raf = requestAnimationFrame(draw);
   }
 
+  /* ---------- depth gauge (signature): scroll = descent to the sunken ship ---------- */
+  var DG_I18N = {
+    ko: { label: "수심", ping: "심장 박동 감지" },
+    en: { label: "depth", ping: "heartbeat detected" },
+    es: { label: "profundidad", ping: "latido detectado" },
+    fr: { label: "profondeur", ping: "battement détecté" },
+    ja: { label: "深度", ping: "心拍を検知" }
+  };
+  function initDepthGauge() {
+    if (!$("#petition") || !$(".hero")) return; // language pages only, not the gate
+    var lang = (document.documentElement.lang || "en").slice(0, 2);
+    var t = DG_I18N[lang] || DG_I18N.en;
+    var g = document.createElement("div");
+    g.className = "depth-gauge"; g.setAttribute("aria-hidden", "true");
+    g.innerHTML = '<div class="dg-label">' + t.label + '</div>' +
+      '<div class="dg-track"><i class="dg-marker"></i><span class="dg-heart"></span></div>' +
+      '<div class="dg-read"><b>0</b> m</div>' +
+      '<div class="dg-ping">' + t.ping + '</div>';
+    document.body.appendChild(g);
+    var marker = $(".dg-marker", g), read = $(".dg-read b", g);
+    var MAX_DEPTH = 2741; // the Hopo Trench, where the ship rests (fan canon)
+    var ticking = false;
+    function upd() {
+      ticking = false;
+      var doc = document.documentElement;
+      var span = Math.max(1, doc.scrollHeight - window.innerHeight);
+      var p = Math.min(1, Math.max(0, (window.scrollY || doc.scrollTop || 0) / span));
+      marker.style.top = (p * 100).toFixed(2) + "%";
+      read.textContent = Math.round(p * MAX_DEPTH).toLocaleString("en-US");
+      g.classList.toggle("deep", p > 0.94);
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(upd); }
+    }, { passive: true });
+    window.addEventListener("resize", upd);
+    upd();
+  }
+
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -306,5 +344,6 @@
     initTheories();
     initVideos();
     initReveal();
+    initDepthGauge();
   });
 })();

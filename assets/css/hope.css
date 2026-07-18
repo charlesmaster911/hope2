@@ -54,7 +54,8 @@ html { scroll-behavior: smooth; scroll-padding-top: 74px; }
 
 body {
   margin: 0;
-  background: var(--abyss);
+  /* the page is a descent: moonlit surface → abyss (deepest at the footer) */
+  background: linear-gradient(180deg, #0c1a22 0%, #081319 22%, #060e12 55%, #030709 100%);
   color: var(--foam);
   font-family: var(--sans);
   font-size: 16px;
@@ -264,7 +265,7 @@ body[data-spoiler="hidden"] .spoiler { filter: blur(9px); opacity: .5; pointer-e
 .petition-box .thanks { color: var(--biolum); margin-top: 16px; font-size: 14px; min-height: 20px; }
 
 /* ---------- footer ---------- */
-footer.site { border-top: 1px solid var(--line); padding: 54px 0 46px; margin-top: 40px; background: var(--abyss-2); }
+footer.site { border-top: 1px solid var(--line); padding: 54px 0 46px; margin-top: 40px; background: #04080b; }
 footer.site .cols { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 30px; }
 @media (max-width: 720px) { footer.site .cols { grid-template-columns: 1fr; gap: 22px; } }
 footer.site .brand { font-family: var(--serif-latin); font-size: 22px; color: var(--foam); }
@@ -292,3 +293,57 @@ footer.site h5 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14
 .gate .langs a b { display: block; font-family: var(--serif); font-size: 19px; margin-bottom: 2px; }
 .gate .langs a span { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--foam-faint); text-transform: uppercase; }
 .gate .foot { position: absolute; bottom: 22px; z-index: 2; font-size: 12px; color: var(--foam-faint); }
+
+/* ---------- depth gauge: the descent spine (signature) ----------
+   Scroll position = depth below the surface. The sunken ship rests at the
+   bottom of the page (the petition); reaching it wakes the heartbeat. */
+.depth-gauge { position: fixed; right: 26px; top: 50%; transform: translateY(-50%); z-index: 30;
+  display: flex; flex-direction: column; align-items: center; gap: 12px; pointer-events: none; }
+.dg-label { writing-mode: vertical-rl; text-orientation: mixed; font-family: var(--mono);
+  font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--foam-faint); }
+.dg-track { position: relative; width: 10px; height: 42vh; border-radius: 99px; border: 1px solid var(--line);
+  background:
+    repeating-linear-gradient(180deg, rgba(150,184,194,.20) 0 1px, transparent 1px 10.5%),
+    linear-gradient(180deg, rgba(71,214,201,.15), rgba(236,90,107,.13)),
+    rgba(8,17,22,.6); }
+.dg-marker { position: absolute; left: 50%; top: 0; transform: translate(-50%,-50%);
+  width: 18px; height: 3px; border-radius: 2px; background: var(--biolum);
+  box-shadow: 0 0 10px rgba(71,214,201,.8); }
+.dg-heart { position: absolute; left: 50%; bottom: -5px; transform: translateX(-50%);
+  width: 9px; height: 9px; border-radius: 50%; background: var(--heart); opacity: .3; }
+.depth-gauge.deep .dg-heart { opacity: 1; box-shadow: 0 0 14px rgba(236,90,107,.9);
+  animation: hb 1.6s ease-in-out infinite; }
+.dg-read { font-family: var(--mono); font-size: 12px; color: var(--foam-dim); font-variant-numeric: tabular-nums; }
+.dg-read b { color: var(--foam); font-weight: 600; }
+.dg-ping { writing-mode: vertical-rl; text-orientation: mixed; font-family: var(--mono);
+  font-size: 10px; letter-spacing: .08em; color: var(--heart); opacity: 0; transition: opacity .5s; }
+.depth-gauge.deep .dg-ping { opacity: 1; }
+@media (max-width: 1060px) { .depth-gauge { display: none; } }
+@keyframes hb {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  12% { transform: translateX(-50%) scale(1.5); }
+  24% { transform: translateX(-50%) scale(1.05); }
+  36% { transform: translateX(-50%) scale(1.35); }
+  50% { transform: translateX(-50%) scale(1); }
+}
+
+/* the deepest point of the page beats like the heart it holds */
+.petition-box { animation: hbGlow 1.8s ease-in-out infinite; }
+@keyframes hbGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(236,90,107,0); }
+  14% { box-shadow: 0 0 44px -8px rgba(236,90,107,.32); }
+  28% { box-shadow: 0 0 24px -10px rgba(236,90,107,.16); }
+  42% { box-shadow: 0 0 40px -8px rgba(236,90,107,.26); }
+  60% { box-shadow: 0 0 0 0 rgba(236,90,107,0); }
+}
+
+/* ---------- vertical eyebrows (KO/JA, wide screens): book-spine labels ---------- */
+@media (min-width: 1120px) {
+  :lang(ko) main section.band .wrap, :lang(ja) main section.band .wrap { position: relative; }
+  :lang(ko) main section.band .wrap > .eyebrow, :lang(ja) main section.band .wrap > .eyebrow {
+    position: absolute; left: -72px; top: 6px; margin: 0;
+    writing-mode: vertical-rl; text-orientation: mixed;
+    border-left: 1px solid var(--line); padding-left: 10px;
+    max-height: 300px; overflow: hidden;
+  }
+}
